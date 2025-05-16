@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fabric Showcase</title>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400&family=Quicksand:wght@400;500&display=swap" rel="stylesheet">
 
@@ -454,6 +455,93 @@ box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
 
 
 
+ .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .popup-content {
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        
+        .popup-overlay.active .popup-content {
+            transform: scale(1);
+        }
+        
+        .iframe1-container {
+            position: relative;
+            width: 100%;
+            height: 80vh;
+            overflow: hidden;
+        }
+        
+        .iframe1-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #ef4444;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.2s ease;
+        }
+        
+        .close-btn:hover {
+            background-color: #dc2626;
+            transform: rotate(90deg);
+        }
+        
+        .popup-header {
+            padding: 15px 20px;
+            background-color: #3b82f6;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+
+
+
+
+
     </style>
 </head>
 <body>
@@ -748,13 +836,21 @@ COLORS
  <!-- iiiiiiiii -->
 
 
-<span onclick="window.open(' ', '_blank')" 
+
+<span onclick="openPopup('popup1')" 
       style="display: inline-block; background: #333f48; color: white; ; padding: 8px 10px; font-size: 14px; font-weight:  ; border-radius: 8px; margin-left: 0px; cursor: pointer; transition: background 0.3s ease-in-out, color 0.3s ease-in-out, border-color 0.3s ease-in-out, transform 0.3s ease-in-out;"
       onmouseover="this.style.background='white'; this.style.color='#333f48'; this.style.borderColor='#333f48'; this.style.transform='scale(1.02)';" 
 
       onmouseout="this.style.background='#333f48'; this.style.color='white'; this.style.borderColor='#333f48'; this.style.transform='scale(1)';">
     Explore All Stock Colors
-</span>&nbsp;
+</span>
+
+
+
+
+
+
+&nbsp;
 
 
  <!-- iiiiiiiii -->
@@ -1101,6 +1197,28 @@ Encore Custom develops all fabrics in house- down to the detail of yarn composit
 
 
 
+  <!-- Popup 1 -->
+    <div id="popup1" class="popup-overlay">
+        <div class="popup-content">
+            <div class="popup-header">
+                   <span>Stock Colors - F L E E C E &nbsp; Fabric</span>
+
+            </div>
+            <div class="iframe1-container">
+                <iframe src="https://encrpc.github.io/Final_Colors/ft/Fleece.html" allowfullscreen></iframe>
+                <div class="close-btn" onclick="closePopup('popup1')">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
  <!-- Dialog box for colors -->
     <div class="dialog-box" id="colorsDialog">
         <iframe src="https://encrpc.github.io/Fabrics_Sub04/Fabrics_OP01/sublimation.html"></iframe>
@@ -1195,6 +1313,45 @@ Encore Custom develops all fabrics in house- down to the detail of yarn composit
         }, 5000); // Change paragraph every 4 seconds
    
 
+
+
+
+
+
+
+
+
+
+
+  function openPopup(popupId) {
+            document.getElementById(popupId).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closePopup(popupId) {
+            document.getElementById(popupId).classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close popup when clicking outside content
+        document.querySelectorAll('.popup-overlay').forEach(popup => {
+            popup.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+        
+        // Close popup with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.popup-overlay').forEach(popup => {
+                    popup.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                });
+            }
+        });
     </script>
 
 </body>
